@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Phone ke liye jaruri -->
+<title>Snake Game - ShreyashVerse</title>
+<style>
+    body { background: #0f172a; color: white; text-align: center; font-family: Arial; padding: 10px; }
+    h1 { color: #00ff00; font-size: 24px; }
+    canvas { background: black; border: 3px solid #334155; border-radius: 10px; max-width: 95vw; }
+    #score { font-size: 20px; margin: 10px; font-weight: bold; }
+    #msg { font-size: 16px; color: #ff1493; margin-top: 10px; }
+    #controls { display: grid; grid-template-columns: 60px 60px 60px; gap: 10px; justify-content: center; margin-top: 15px; }
+   .btn { width: 60px; height: 60px; font-size: 24px; background: #1e293b; color: white; border: 2px solid #334155; border-radius: 10px; }
+   .btn:active { background: #334155; }
+</style>
+</head>
+<body>
+
+<h1>Snake Game 🐍</h1>
+<div id="score">Score: 0</div>
+<canvas id="game" width="600" height="400"></canvas>
+<div id="msg">Use Buttons or Arrow Keys</div>
+
+<div id="controls">
+    <div></div><button class="btn" onclick="setDir(0,-20)">↑</button><div></div>
+    <button class="btn" onclick="setDir(-20,0)">←</button><button class="btn" onclick="setDir(0,20)">↓</button><button class="btn" onclick="setDir(20,0)">→</button>
+</div>
+<button class="btn" style="width:200px; margin-top:10px;" onclick="initGame()">Restart</button>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+// Mobile pe canvas chota karo
+if(window.innerWidth < 650){
+    canvas.width = window.innerWidth - 20;
+    canvas.height = (window.innerWidth - 20) * 400/600;
+}
+
+const W = canvas.width, H = canvas.height, BLOCK = 20;
+let snake, dx, dy, food, score, speed, gameOver;
+
+function initGame() {
+    snake = [{x: Math.floor(W/2/BLOCK)*BLOCK, y: Math.floor(H/2/BLOCK)*BLOCK}];
+    dx = 0; dy = 0; score = 0; speed = 10; gameOver = false;
+    spawnFood();
+    document.getElementById("score").innerText = "Score: 0";
+    document.getElementById("msg").innerText = "Tap Buttons to Start";
+    gameLoop();
+}
+
+function spawnFood() {
+    food = {x: Math.floor(Math.random() * (W/BLOCK)) * BLOCK, y: Math.floor(Math.random() * (H/BLOCK)) * BLOCK};
+    for(let s of snake) if(s.x === food.x && s.y === food.y) spawnFood();
+}
+
+function draw() {
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#ff0000"; ctx.fillRect(food.x, food.y, BLOCK, BLOCK);
+    ctx.fillStyle = "#00ff00"; for(let s of snake) ctx.fillRect(s.x, s.y, BLOCK, BLOCK);
+}
+
+function update() {
+    if(gameOver || (dx === 0 && dy === 0)) return;
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    if(head.x >= W || head.x < 0 || head.y >= H || head.y < 0) { endGame(); return; }
+    for(let s of snake) if(s.x === head.x && s.y === head.y) { endGame(); return; }
+    snake.unshift(head);
+    if(head.x === food.x && head.y === food.y) { score += 10; speed += 0.5; document.getElementById("score").innerText = "Score: " + score; spawnFood(); }
+    else { snake.pop(); }
+}
+
+function endGame() { gameOver = true; document.getElementById("msg").innerText = `Game Over! Score: ${score}`; }
+
+function setDir(newDx, newDy){
+    if(dx === -newDx && dy === -newDy) return; // reverse na ho
+    dx = newDx; dy = newDy;
+}
+
+function gameLoop() { update(); draw(); if(!gameOver) setTimeout(gameLoop, 1000/speed); }
+
+// Keyboard + Button dono
+document.addEventListener("keydown", e => {
+    if(e.key === "ArrowLeft" && dx!== BLOCK) setDir(-BLOCK,0);
+    if(e.key === "ArrowRight" && dx!== -BLOCK) setDir(BLOCK,0);
+    if(e.key === "ArrowUp" && dy!== BLOCK) setDir(0,-BLOCK);
+    if(e.key === "ArrowDown" && dy!== -BLOCK) setDir(0,BLOCK);
+});
+
+draw();
+</script>
+
+</body>
+</html>
