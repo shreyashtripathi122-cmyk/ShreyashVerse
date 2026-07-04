@@ -17,34 +17,35 @@
             min-height: 100vh;
             margin: 0;
             text-align: center;
+            padding: 20px;
         }
-        h1 { color: #00c8ff; font-size: 2.5rem; margin-bottom: 10px; }
+        h1 { color: #00c8ff; font-size: 2.2rem; margin-bottom: 10px; }
         #status { color: #b45cff; font-size: 1.3rem; margin-bottom: 25px; font-weight: 600; }
-       .board {
+      .board {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
+            grid-template-columns: repeat(3, 90px);
+            grid-template-rows: repeat(3, 90px);
             gap: 10px;
             background: #222;
-            padding: 10px;
+            padding: 12px;
             border-radius: 15px;
         }
-       .cell {
-            width: 100px;
-            height: 100px;
+      .cell {
+            width: 90px;
+            height: 90px;
             background: #111;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 700;
             cursor: pointer;
             border-radius: 10px;
             transition: 0.2s;
         }
-       .cell:hover { background: #222; }
-       .cell.x { color: #00c8ff; }
-       .cell.o { color: #b45cff; }
+      .cell:hover { background: #222; }
+      .cell.x { color: #00c8ff; }
+      .cell.o { color: #b45cff; }
         #restartBtn {
             margin-top: 30px;
             padding: 12px 30px;
@@ -56,9 +57,12 @@
             cursor: pointer;
             font-weight: 600;
         }
-        #restartBtn:hover { background: #b45cff; color: white; }
-       .back { margin-top: 20px; }
-       .back a { color: #00c8ff; text-decoration: none; }
+      .back { margin-top: 20px; }
+      .back a { color: #00c8ff; text-decoration: none; }
+        @media(max-width: 400px){
+           .board { grid-template-columns: repeat(3, 80px); grid-template-rows: repeat(3, 80px); }
+           .cell { width: 80px; height: 80px; font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -86,7 +90,7 @@
         const restartBtn = document.getElementById('restartBtn');
         let gameActive = true;
         let currentPlayer = 'X';
-        let gameState = ["", "", ""];
+        let gameState = ["", "", ""]; // 9 BOX AB
 
         const winningConditions = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -94,8 +98,8 @@
             [0, 4, 8], [2, 4, 6]
         ];
 
-        function handleCellClick(clickedCellEvent) {
-            const clickedCell = clickedCellEvent.target;
+        function handleCellClick(e) {
+            const clickedCell = e.target;
             const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
 
             if (gameState[clickedCellIndex]!== "" ||!gameActive) return;
@@ -103,7 +107,7 @@
             handlePlayerTurn(clickedCell, clickedCellIndex);
 
             if (gameActive) {
-                setTimeout(handleAITurn, 500);
+                setTimeout(handleAITurn, 400);
             }
         }
 
@@ -117,7 +121,7 @@
         function handleAITurn() {
             currentPlayer = 'O';
             const bestMove = findBestMove();
-            if (bestMove!== -1) {
+            if (bestMove!== -1 && gameState[bestMove] === "") {
                 gameState[bestMove] = 'O';
                 cells[bestMove].innerHTML = 'O';
                 cells[bestMove].classList.add('o');
@@ -206,7 +210,7 @@
         function handleRestartGame() {
             gameActive = true;
             currentPlayer = 'X';
-            gameState = ["", "", ""];
+            gameState = ["", "", "", "", "", "", "", "", ""]; // 9 BOX RESET
             statusDisplay.innerHTML = "Your Turn: X";
             cells.forEach(cell => {
                 cell.innerHTML = "";
