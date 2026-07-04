@@ -1,98 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShreyashVerse | Shreyash Tripathi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #00c8ff; --secondary: #b45cff; --bg: #0a0a0a; --card: #111; --text: #e0e0e0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); }
-      .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        nav { background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; padding: 15px 0; }
-        nav.container { display: flex; justify-content: space-between; align-items: center; }
-        nav h1 { color: var(--primary); font-size: 1.5rem; }
-        nav a { color: var(--text); text-decoration: none; margin-left: 20px; font-weight: 500; }
-        nav a:hover { color: var(--secondary); }
-      .hero { display: flex; align-items: center; gap: 40px; padding: 80px 0; }
-      .hero img { width: 200px; height: 200px; border-radius: 50%; border: 5px solid var(--primary); object-fit: cover; }
-      .hero h2 { font-size: 3rem; color: var(--primary); }
-      .hero h3 { font-size: 1.2rem; color: var(--secondary); font-weight: 400; }
-      .btn { display: inline-block; background: var(--secondary); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; margin-top: 15px; font-weight: 600; }
-      .btn-play { background: var(--primary); font-size: 0.9rem; padding: 10px 18px; margin-top: 15px; }
-        section { padding: 60px 0; }
-        section h2 { font-size: 2rem; text-align: center; margin-bottom: 40px; color: var(--primary); }
-      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-      .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #222; }
-      .card h3 { color: var(--secondary); margin-bottom: 10px; }
-      .tag { display: inline-block; background: #222; color: var(--primary); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px; margin-top: 5px; }
-      .skills-wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-      .skill { background: var(--card); padding: 10px 20px; border-radius: 25px; border: 1px solid var(--secondary); }
-      .contact-box { text-align: center; background: var(--card); padding: 40px; border-radius: 12px; }
-        footer { text-align: center; padding: 30px 0; color: #666; border-top: 1px solid #222; }
-        @media(max-width: 768px) {.hero { flex-direction: column; text-align: center; }.hero h2 { font-size: 2.2rem; }}
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="container">
-            <h1>ShreyashVerse</h1>
-            <div>
-                <a href="#about">About</a><a href="#education">Education</a><a href="#projects">Projects</a>
-                <a href="#games">Games</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="hero container" id="about">
-        <img src="my_img.jpg" alt="Shreyash Tripathi">
-        <div>
-            <h2>SHREYASH TRIPATHI</h2>
-            <h3>BCA Student | Python Developer | Game Dev | Lucknow</h3>
-            <p style="margin: 15px 0;">Dedicated BCA 3rd Year student at IISE Lucknow with strong foundation in Python, Java, and Web Development.</p>
-            <a href="Shreyash_Tripathi_Resume-1.pdf" class="btn" download>📄 Download Resume</a>
-            <p style="margin-top:15px;">📧 shreyashtripathi122@gmail.com | 📞 +91 9208261690</p>
-        </div>
-    </header>
-
-    <section id="education"><div class="container"><h2>🎓 Education</h2><div class="grid">
-        <div class="card"><h3>Bachelor of Computer Applications</h3><p>IISE Group of Institutions, Lucknow</p><p><b>2024 - Present | 3rd Year</b></p></div>
-        <div class="card"><h3>Higher Secondary - ISC</h3><p>City Convent School, Lucknow</p><p><b>Passed 2024</b></p></div>
-        <div class="card"><h3>Secondary - ICSE</h3><p>City Convent School, Lucknow</p><p><b>Passed 2022</b></p></div>
-    </div></div></section>
-
-    <section id="projects" style="background: #050505;"><div class="container"><h2>🚀 Projects</h2><div class="grid">
-        <div class="card"><h3>Car Racing Game</h3><p>2D racing game with obstacle avoidance and score tracking.</p><span class="tag">Python</span> <span class="tag">Pygame</span></div>
-        <div class="card"><h3>Tic Tac Toe vs Shreyash</h3><p>Play against Shreyash AI with Minimax algorithm.</p><span class="tag">Python</span> <span class="tag">Tkinter</span></div>
-        <div class="card"><h3>Student Management System</h3><p>CRUD application with login system and database.</p><span class="tag">Java</span> <span class="tag">MySQL</span></div>
-    </div></div></section>
-
-    <section id="games"><div class="container"><h2>🎮 Play Games</h2><div class="grid">
-        <div class="card">
-            <h3>🏎️ Car Racing</h3><p>Avoid red cars, collect points. Speed increases every 10 points.</p>
-            <span class="tag">JavaScript</span><a href="car%20race.html" class="btn btn-play" target="_blank">Play Now</a>
-        </div>
-        <div class="card">
-            <h3>❌⭕ Tic Tac Toe - Vs Shreyash</h3><p>Shreyash AI kabhi nahi harega! Minimax ke against khelo.</p>
-            <span class="tag">JavaScript</span><a href="TTT.html" class="btn btn-play" target="_blank">Play Now</a>
-        </div>
-    </div></div></section>
-
-    <section id="skills" style="background: #050505;"><div class="container"><h2>💻 Technical Skills</h2><div class="skills-wrap">
-        <div class="skill">C</div><div class="skill">Core Java</div><div class="skill">Python</div>
-        <div class="skill">SQL</div><div class="skill">DBMS</div><div class="skill">OOPs</div>
-        <div class="skill">HTML5</div><div class="skill">CSS3</div><div class="skill">JavaScript</div>
-    </div></div></section>
-
-    <section id="contact"><div class="container"><h2>📬 Contact</h2><div class="contact-box">
-        <h3>Let's Connect</h3>
-        <p style="margin: 15px 0;">Open for Internships and Collaboration</p>
-        <p><b>Email:</b> shreyashtripathi122@gmail.com</p>
-        <p><b>Phone:</b> +91 9208261690</p>
-        <p><b>Location:</b> Lucknow, Uttar Pradesh</p>
-    </div></div></section>
-
-    <footer><p>© 2026 ShreyashVerse. Portfolio of Shreyash Tripathi.</p></footer>
-</body>
-</html>
+<section id="skills" style="background: #050505;"><div class="container"><h2>💻 Technical Skills</h2><div class="skills-wrap">
+    <div class="skill">C</div>
+    <div class="skill">Core Java</div>
+    <div class="skill">Python</div>
+    <div class="skill">SQL</div>
+    <div class="skill">DBMS</div>
+    <div class="skill">OOPs</div>
+    <div class="skill">HTML5</div>
+    <div class="skill">CSS3</div>
+    <div class="skill">JavaScript</div>
+    <div class="skill">Game Development</div>
+    <div class="skill">Web Development</div>
+    <div class="skill">Git & GitHub</div>
+    <div class="skill">Pygame</div>
+    <div class="skill">Tkinter</div>
+    <div class="skill">MySQL</div>
+</div></div></section>
