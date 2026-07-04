@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tic Tac Toe - ShreyashVerse</title>
+<style>
+    body { font-family: Arial; background: #0f172a; color: white; text-align: center; padding: 20px; }
+    h1 { color: #00c8ff; }
+    #board { display: grid; grid-template-columns: repeat(3, 100px); gap: 8px; justify-content: center; margin: 20px auto; }
+    .cell { width: 100px; height: 100px; font-size: 50px; font-weight: bold; background: #1e293b; border: 2px solid #334155; border-radius: 10px; cursor: pointer; color: white; transition: 0.2s; }
+    .cell:hover:not(:disabled) { background: #334155; }
+    .cell:disabled { cursor: not-allowed; }
+    .x { color: #00c8ff; }
+    .o { color: #ff1493; }
+    #status { font-size: 22px; margin: 15px; font-weight: bold; }
+    #reset { padding: 12px 25px; font-size: 16px; background: #00c8ff; border: none; border-radius: 8px; cursor: pointer; color: black; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Tic Tac Toe vs Computer 🤖</h1>
+<div id="status">Your Turn: X</div>
+<div id="board"></div>
+<button id="reset" onclick="resetGame()">Restart</button>
+
+<script>
+let board = Array(9).fill(""); // <-- YEHI ASLI FIX HAI. 9 KHALI BLOCK
+let player = "X";
+let computer = "O";
+let gameOverFlag = false;
+
+const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+];
+
+function createBoard() {
+    const boardDiv = document.getElementById("board");
+    boardDiv.innerHTML = "";
+    for(let i=0; i<9; i++) {
+        const btn = document.createElement("button");
+        btn.id = `cell-${i}`;
+        btn.className = "cell";
+        btn.onclick = () => playerMove(i);
+        boardDiv.appendChild(btn);
+    }
+}
+
+function checkWinner(b) {
+    for(let [a,c,d] of wins) {
+        if(b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
+    }
+    if(!b.includes("")) return "Draw";
+    return null;
+}
+
+function minimax(b, isMax) {
+    let winner = checkWinner(b);
+    if(winner === computer) return 10;
+    if(winner === player) return -10;
+    if(winner === "Draw") return 0;
+
+    if(isMax) {
+        let best = -100;
+        for(let i=0; i<9; i++) {
+            if(b[i] === "") {
+                b[i] = computer;
+                best = Math.max(best, minimax(b, false));
+                b[i] = "";
+            }
+        }
+        return best;
+    } else {
+        let best = 100;
+        for(let i=0; i<9; i++) {
+            if(b[i] === "") {
+                b[i] = player;
+                best = Math.min(best, minimax(b, true));
+                b[i] = "";
+            }
+        }
+        return best;
+    }
+}
+
+function computerMove() {
+    if(gameOverFlag) return;
+    let bestScore = -100;
+    let bestMove = null;
+
+    for(let i=0; i<9; i++) {
+        if(board[i] === "") {
+            board[i] = computer;
+            if(checkWinner(board) === computer) { bestMove = i; board[i] = ""; break; }
+            board[i] = "";
+        }
+    }
+    if(bestMove === null) {
+        for(let i=0; i<9; i++) {
+            if(board[i] === "") {
+                board[i] = player;
+                if(checkWinner(board) === player) { bestMove = i; board[i] = ""; break; }
+                board[i] = "";
+            }
+        }
+    }
+    if(bestMove === null) {
+        for(let i=0; i<9; i++) {
+            if(board[i] === "") {
+                board[i] = computer;
+                let score = minimax(board, false);
+                board[i] = "";
+                if(score > bestScore) { bestScore = score; bestMove = i; }
+            }
+        }
+    }
+
+    if(bestMove !== null) {
+        board[bestMove] = computer;
+        updateUI(bestMove, computer);
+        let winner = checkWinner(board);
+        if(winner) endGame(winner);
+        else document.getElementById("status").innerText = "Your Turn: X";
+    }
+}
+
+function playerMove(i) {
+    if(board[i] !== "" || gameOverFlag) return;
+    board[i] = player;
+    updateUI(i, player);
+    let winner = checkWinner(board);
+    if(winner) { endGame(winner); return; }
+    document.getElementById("status").innerText = "Computer thinking...";
+    setTimeout(computerMove, 500);
+}
+
+function updateUI(i, mark) {
+    let btn = document.getElementById(`cell-${i}`);
+    btn.innerText = mark;
+    btn.disabled = true;
+    btn.classList.add(mark === "X" ? "x" : "o");
+}
+
+function endGame(winner) {
+    gameOverFlag = true;
+    for(let i=0; i<9; i++) document.getElementById(`cell-${i}`).disabled = true;
+    if(winner === "Draw") document.getElementById("status").innerText = "Match Draw!";
+    else if(winner === player) document.getElementById("status").innerText = "You Win! 🎉";
+    else document.getElementById("status").innerText = "Computer Wins! 🤖";
+    setTimeout(resetGame, 1500);
+}
+
+function resetGame() {
+    board = Array(9).fill(""); // <-- Yaha bhi 9 block
+    gameOverFlag = false;
+    document.getElementById("status").innerText = "Your Turn: X";
+    createBoard();
+}
+
+createBoard();
+</script>
+
+</body>
+</html>
