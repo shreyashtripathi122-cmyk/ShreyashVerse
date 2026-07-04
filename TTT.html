@@ -21,31 +21,32 @@
         }
         h1 { color: #00c8ff; font-size: 2.2rem; margin-bottom: 10px; }
         #status { color: #b45cff; font-size: 1.3rem; margin-bottom: 25px; font-weight: 600; }
-      .board {
+     .board {
             display: grid;
-            grid-template-columns: repeat(3, 90px);
-            grid-template-rows: repeat(3, 90px);
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 12px;
             background: #222;
-            padding: 12px;
+            padding: 15px;
             border-radius: 15px;
+            width: 300px;
+            height: 300px;
         }
-      .cell {
-            width: 90px;
-            height: 90px;
+     .cell {
             background: #111;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             cursor: pointer;
             border-radius: 10px;
             transition: 0.2s;
+            user-select: none;
         }
-      .cell:hover { background: #222; }
-      .cell.x { color: #00c8ff; }
-      .cell.o { color: #b45cff; }
+     .cell:hover { background: #1a1a1a; }
+     .cell.x { color: #00c8ff; }
+     .cell.o { color: #b45cff; }
         #restartBtn {
             margin-top: 30px;
             padding: 12px 30px;
@@ -57,12 +58,9 @@
             cursor: pointer;
             font-weight: 600;
         }
-      .back { margin-top: 20px; }
-      .back a { color: #00c8ff; text-decoration: none; }
-        @media(max-width: 400px){
-           .board { grid-template-columns: repeat(3, 80px); grid-template-rows: repeat(3, 80px); }
-           .cell { width: 80px; height: 80px; font-size: 2.5rem; }
-        }
+        #restartBtn:hover { background: #b45cff; color: white; }
+     .back { margin-top: 20px; }
+     .back a { color: #00c8ff; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -90,7 +88,7 @@
         const restartBtn = document.getElementById('restartBtn');
         let gameActive = true;
         let currentPlayer = 'X';
-        let gameState = ["", "", ""]; // 9 BOX AB
+        let gameState = ["", "", "", "", "", "", "", "", ""]; // 9 BOX
 
         const winningConditions = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -210,7 +208,7 @@
         function handleRestartGame() {
             gameActive = true;
             currentPlayer = 'X';
-            gameState = ["", "", "", "", "", "", "", "", ""]; // 9 BOX RESET
+            gameState = ["", "", "", "", "", "", "", "", ""];
             statusDisplay.innerHTML = "Your Turn: X";
             cells.forEach(cell => {
                 cell.innerHTML = "";
